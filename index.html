@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eaglercraft</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        
+        #main {
+            width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        #header {
+            height: 50px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        #header h1 {
+            margin: 0;
+        }
+        
+        #content {
+            padding: 20px;
+        }
+        
+        #content h2 {
+            margin-top: 20px;
+        }
+        
+        #footer {
+            clear: both;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <h1>Eaglercraft</h1>
+        </div>
+        <div id="content">
+            <h2>Player Information</h2>
+            <p>Username: <span id="username"></span></p>
+            <p>Experience: <span id="experience"></span></p>
+            <p>Experience Level: <span id="experience_level"></span></p>
+            <p>Health: <span id="health"></span></p>
+            <p>Hunger: <span id="hunger"></span></p>
+            <p>Speed: <span id="speed"></span></p>
+            <p>Damage: <span id="damage"></span></p>
+        </div>
+        <div id="footer">
+            <p>&copy; 2023 Eaglercraft</p>
+        </div>
+    </div>
+    
+    <script>
+        // 获取 player 信息
+        const player = new EaglercraftPlayer(new EaglercraftWorld("world", new MinecraftServer()), "player");
+        document.getElementById("username").innerHTML = player.username;
+        document.getElementById("experience").innerHTML = player.experience;
+        document.getElementById("experience_level").innerHTML = player.experienceLevel;
+        document.getElementById("health").innerHTML = player.health;
+        document.getElementById("hunger").innerHTML = player.hunger;
+        document.getElementById("speed").innerHTML = player.speed;
+        document.getElementById("damage").innerHTML = player.damage;
+    </script>
+</body>
+</html>
