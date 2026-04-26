@@ -46,6 +46,12 @@
             color: #fff;
             text-align: center;
         }
+        
+        #canvas {
+            width: 800px;
+            height: 600px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -66,9 +72,13 @@
         <div id="footer">
             <p>&copy; 2023 Eaglercraft</p>
         </div>
+        <canvas id="canvas"></canvas>
     </div>
     
     <script>
+        // 初始化 Eaglercraft
+        Eaglercraft.init();
+        
         // 获取 player 信息
         const player = new EaglercraftPlayer(new EaglercraftWorld("world", new MinecraftServer()), "player");
         document.getElementById("username").innerHTML = player.username;
@@ -79,10 +89,34 @@
         document.getElementById("speed").innerHTML = player.speed;
         document.getElementById("damage").innerHTML = player.damage;
         
+        // 设置 canvas
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = 800;
+        canvas.height = 600;
+        
         // 添加事件监听器
-        document.addEventListener("click", function(event) {
-            // 提示信息
-            alert("点击了页面");
+        document.addEventListener("keydown", function(event) {
+            // 控制 player
+            switch (event.keyCode) {
+                case 37: // 左键
+                    player.moveLeft();
+                    break;
+                case 38: // 上键
+                    player.moveUp();
+                    break;
+                case 39: // 右键
+                    player.moveRight();
+                    break;
+                case 40: // 下键
+                    player.moveDown();
+                    break;
+                case 32: // 空格键
+                    player.jump();
+                    break;
+            }
+            // 重新绘制 canvas
+            draw();
         });
         
         // 添加定时器
@@ -95,35 +129,13 @@
             document.getElementById("hunger").innerHTML = player.hunger;
             document.getElementById("speed").innerHTML = player.speed;
             document.getElementById("damage").innerHTML = player.damage;
-        }, 1000);
-        
-        // 添加 Ajax 请求
-        $.ajax({
-            type: "GET",
-            url: "https://api.eaglercraft.com/player",
-            dataType: "json",
-            success: function(data) {
-                // 更新 player 信息
-                document.getElementById("username").innerHTML = data.username;
-                document.getElementById("experience").innerHTML = data.experience;
-                document.getElementById("experience_level").innerHTML = data.experienceLevel;
-                document.getElementById("health").innerHTML = data.health;
-                document.getElementById("hunger").innerHTML = data.hunger;
-                document.getElementById("speed").innerHTML = data.speed;
-                document.getElementById("damage").innerHTML = data.damage;
-            },
-            error: function(xhr, status, error) {
-                // 提示错误信息
-                alert("Error: " + error);
-            }
-        });
+            // 重新绘制 canvas
+            draw();
+        }, 1000 / 60);
         
         // 添加 WebSocket 连接
         var socket = new WebSocket("wss://api.eaglercraft.com/player");
         socket.onmessage = function(event) {
             // 更新 player 信息
             document.getElementById("username").innerHTML = event.data.username;
-            document.getElementById("experience").innerHTML = event.data.experience;
-            document.getElementById("experience_level").innerHTML = event.data.experienceLevel;
-            document.getElementById("health").innerHTML = event.data.health;
-            document.getElementById("hunger").innerHTML = event.data.hunger;
+            document.getElementById("experience").innerHTML = event.data.experience
